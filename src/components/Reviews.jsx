@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 const REVIEWS = [
   {
     name: 'Teddi Buckley',
-    text: 'Excellent service! He was easy to communicate with, very professional, and did an awesome job fixing everything we needed. I\'d happily recommend him to anyone looking for a reliable handyman.',
+    text: "Excellent service! He was easy to communicate with, very professional, and did an awesome job fixing everything we needed. I'd happily recommend him to anyone looking for a reliable handyman.",
     stars: 5,
   },
   {
@@ -120,10 +120,11 @@ export default function Reviews() {
         </div>
 
         {/* ── Cards grid ─────────────────────────────────── */}
+        {/* No alignItems override — grid default stretch makes all cards equal height */}
         <div
           data-reviews-grid
           className="grid grid-cols-1 md:grid-cols-3"
-          style={{ gap: '20px', alignItems: 'start' }}
+          style={{ gap: '20px' }}
         >
           {REVIEWS.map((review) => (
             <ReviewCard key={review.name} review={review} />
@@ -162,10 +163,10 @@ function ReviewCard({ review }) {
         borderRadius: '12px',
         padding: '32px',
         position: 'relative',
-        /* Middle card nudges up on desktop via margin-top override below */
-        marginTop: featured ? undefined : undefined,
+        /* flex column so reviewer info is always pinned to bottom */
+        display: 'flex',
+        flexDirection: 'column',
       }}
-      className={featured ? 'md:-translate-y-4' : ''}
     >
       {/* Large decorative quote mark */}
       <div
@@ -200,7 +201,7 @@ function ReviewCard({ review }) {
         ))}
       </div>
 
-      {/* Review text */}
+      {/* Review text — flex:1 pushes footer to bottom */}
       <p
         style={{
           color: featured ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.7)',
@@ -208,6 +209,7 @@ function ReviewCard({ review }) {
           fontStyle: 'italic',
           lineHeight: 1.7,
           marginBottom: '24px',
+          flex: 1,
         }}
       >
         {text}
@@ -224,9 +226,8 @@ function ReviewCard({ review }) {
         }}
       />
 
-      {/* Reviewer name */}
+      {/* Reviewer name — always at bottom */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        {/* Initials avatar */}
         <div
           style={{
             width: '36px',
@@ -249,7 +250,6 @@ function ReviewCard({ review }) {
               color: featured ? '#D97706' : 'rgba(255,255,255,0.5)',
               fontSize: '13px',
               fontWeight: '700',
-              letterSpacing: '0.02em',
             }}
           >
             {name.charAt(0)}
